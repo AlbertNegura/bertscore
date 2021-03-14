@@ -1,3 +1,10 @@
 numpy==1.19.2
 matplotlib==3.3.2
-bert-score==0.3.8
+bert-score
+tensorflow-hub
+tensorflow-datasets==1.0.2
+tqdm==4.31.1
+bert-tensorflow==1.0.1
+bunch
+rouge==0.3.2
+pyyaml 
