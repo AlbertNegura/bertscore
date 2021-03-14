@@ -1,2 +1,2 @@
-# bertscore
-Examining BERTScore as an Abstractive Summarization Evaluation Method
+# Examining BERTScore as an Abstractive Summarization Evaluation Method
+
