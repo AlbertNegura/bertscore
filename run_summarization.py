@@ -354,6 +354,8 @@ def main():
 
     # Preprocessing the datasets.
     # We need to tokenize inputs and targets.
+    values = int(len(datasets["documents"]) * 0.8)
+    test_values = int(len(datasets["documents"]) * 0.1)
 
     if data_args.dataset_name is not "reddit_tifu":
         if training_args.do_train:
@@ -366,8 +368,7 @@ def main():
             logger.info("There is nothing to do. Please pass `do_train`, `do_eval` and/or `do_predict`.")
             return
     else:
-        values = int(len(datasets["documents"])*0.8)
-        test_values = int(len(datasets["documents"])*0.1)
+
         if training_args.do_train:
             column_names = datasets["documents"][:values]
         elif training_args.do_eval:
@@ -429,9 +430,9 @@ def main():
         return model_inputs
 
     if training_args.do_train:
-        train_dataset = datasets["train"]
-        if "train" not in datasets:
-            raise ValueError("--do_train requires a train dataset")
+        train_dataset = datasets["train"] if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][:values]
+        # if "train" not in datasets:
+            # raise ValueError("--do_train requires a train dataset")
         if data_args.max_train_samples is not None:
             train_dataset = train_dataset.select(range(data_args.max_train_samples))
         train_dataset = train_dataset.map(
@@ -444,9 +445,9 @@ def main():
 
     if training_args.do_eval:
         max_target_length = data_args.val_max_target_length
-        if "validation" not in datasets:
-            raise ValueError("--do_eval requires a validation dataset")
-        eval_dataset = datasets["validation"]
+        # if "validation" not in datasets:
+            # raise ValueError("--do_eval requires a validation dataset")
+        eval_dataset = datasets["validation"] if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][values:-test_values]
         if data_args.max_val_samples is not None:
             eval_dataset = eval_dataset.select(range(data_args.max_val_samples))
         eval_dataset = eval_dataset.map(
@@ -459,9 +460,9 @@ def main():
 
     if training_args.do_predict:
         max_target_length = data_args.val_max_target_length
-        if "test" not in datasets:
-            raise ValueError("--do_predict requires a test dataset")
-        test_dataset = datasets["test"]
+        # if "test" not in datasets:
+            # raise ValueError("--do_predict requires a test dataset")
+        test_dataset = datasets["test"]if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][test_values:]
         if data_args.max_test_samples is not None:
             test_dataset = test_dataset.select(range(data_args.max_test_samples))
         test_dataset = test_dataset.map(
