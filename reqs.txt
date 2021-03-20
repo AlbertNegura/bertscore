@@ -8,3 +8,6 @@ bert-tensorflow==1.0.1
 bunch
 rouge==0.3.2
 pyyaml 
+BeautifulSoup4
+spacy
+pyenchant
