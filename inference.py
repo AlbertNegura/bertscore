@@ -3,7 +3,7 @@ import requests
 import datasets
 
 split_patterns = {
-        "train": "train",
+        "train": "train[:5%]",
         "validation": "train[80%:90%]",
         "test": "train[90%:]"
     }
