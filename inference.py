@@ -16,7 +16,7 @@ dataset_test = datasets.load_dataset('reddit_tifu', 'short', split=split_pattern
 # title: ['title']
 
 
-headers = {"Authorization": f"Bearer api_QniHzMaGMvtvUpernwhmCFFeegSRUFUNNj"}
+headers = {"Authorization": f"Bearer {API_KEY}"}
 API_URL = "https://api-inference.huggingface.co/google/roberta2roberta_L-24_cnn_daily_mail"
 
 def query(payload):
@@ -34,5 +34,5 @@ for i in range(len(dataset_train)):
     ))
 
 
-with open('data.txt', 'w') as outfile:
+with open({OUTPUT_FILE}, 'w') as outfile:
     json.dump(data, outfile)
