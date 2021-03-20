@@ -2,7 +2,7 @@ numpy==1.19.2
 matplotlib==3.3.2
 bert-score
 tensorflow-hub
-tensorflow-datasets==1.0.2
+tensorflow-datasets==4.2.0
 tqdm==4.31.1
 bert-tensorflow==1.0.1
 bunch
