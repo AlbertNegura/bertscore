@@ -354,10 +354,10 @@ def main():
 
     # Preprocessing the datasets.
     # We need to tokenize inputs and targets.
-    values = int(len(datasets["documents"]) * 0.8)
-    test_values = int(len(datasets["documents"]) * 0.1)
+    values = int(len(datasets) * 0.8)
+    test_values = int(len(datasets) * 0.1)
 
-    if data_args.dataset_name is not "reddit_tifu":
+    if data_args.dataset_name != "reddit_tifu":
         if training_args.do_train:
             column_names = datasets["train"].column_names
         elif training_args.do_eval:
@@ -370,11 +370,11 @@ def main():
     else:
 
         if training_args.do_train:
-            column_names = datasets["documents"][:values]
+            column_names = datasets.column_names
         elif training_args.do_eval:
-            column_names = datasets["documents"][values:-test_values]
+            column_names = datasets.column_names
         elif training_args.do_predict:
-            column_names = datasets["documents"][-test_values:]
+            column_names = datasets.column_names
         else:
             logger.info("There is nothing to do. Please pass `do_train`, `do_eval` and/or `do_predict`.")
             return
@@ -429,8 +429,14 @@ def main():
         model_inputs["labels"] = labels["input_ids"]
         return model_inputs
 
+    split_patterns = {
+        "train": "train[:80%]",
+        "validation": "train[80%:90%]",
+        "test": "train[90%:]"
+    }
+
     if training_args.do_train:
-        train_dataset = datasets["train"] if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][:values]
+        train_dataset = datasets["train"] if data_args.dataset_name != "reddit_tifu" else load_dataset('reddit_tifu', 'short', split=split_patterns["train"])
         # if "train" not in datasets:
             # raise ValueError("--do_train requires a train dataset")
         if data_args.max_train_samples is not None:
@@ -447,7 +453,7 @@ def main():
         max_target_length = data_args.val_max_target_length
         # if "validation" not in datasets:
             # raise ValueError("--do_eval requires a validation dataset")
-        eval_dataset = datasets["validation"] if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][values:-test_values]
+        eval_dataset = datasets["validation"] if data_args.dataset_name != "reddit_tifu" else load_dataset('reddit_tifu', 'short', split=split_patterns["validation"])
         if data_args.max_val_samples is not None:
             eval_dataset = eval_dataset.select(range(data_args.max_val_samples))
         eval_dataset = eval_dataset.map(
@@ -462,7 +468,7 @@ def main():
         max_target_length = data_args.val_max_target_length
         # if "test" not in datasets:
             # raise ValueError("--do_predict requires a test dataset")
-        test_dataset = datasets["test"]if data_args.dataset_name is not "reddit_tifu" else datasets["documents"][test_values:]
+        test_dataset = datasets["test"]if data_args.dataset_name != "reddit_tifu" else load_dataset('reddit_tifu', 'short', split=split_patterns["test"])
         if data_args.max_test_samples is not None:
             test_dataset = test_dataset.select(range(data_args.max_test_samples))
         test_dataset = test_dataset.map(
