@@ -1,6 +1,4 @@
-import tensorflow as tf
 import tensorflow_datasets as tfds
-from tensorflow_datasets.summarization import reddit_tifu, reddit_tifu_test
 from bert_score import score
 from bert_score import plot_example
 # hide the loading messages
@@ -9,7 +7,6 @@ import transformers
 transformers.tokenization_utils.logger.setLevel(logging.ERROR)
 transformers.configuration_utils.logger.setLevel(logging.ERROR)
 transformers.modeling_utils.logger.setLevel(logging.ERROR)
-import matplotlib.pyplot as plt
 from matplotlib import rcParams
 
 rcParams["xtick.major.size"] = 0
