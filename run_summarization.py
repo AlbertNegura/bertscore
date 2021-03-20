@@ -370,15 +370,14 @@ def main():
     else:
 
         if training_args.do_train:
-            column_names = datasets.column_names
+            column_names = datasets["train"].column_names
         elif training_args.do_eval:
-            column_names = datasets.column_names
+            column_names = datasets["train"].column_names
         elif training_args.do_predict:
-            column_names = datasets.column_names
+            column_names = datasets["train"].column_names
         else:
             logger.info("There is nothing to do. Please pass `do_train`, `do_eval` and/or `do_predict`.")
             return
-
 
     # Get the column names for input/target.
     dataset_columns = summarization_name_mapping.get(data_args.dataset_name, None)
@@ -435,6 +434,7 @@ def main():
         "test": "train[90%:]"
     }
 
+
     if training_args.do_train:
         train_dataset = datasets["train"] if data_args.dataset_name != "reddit_tifu" else load_dataset('reddit_tifu', 'short', split=split_patterns["train"])
         # if "train" not in datasets:
@@ -475,7 +475,9 @@ def main():
             num_proc=data_args.preprocessing_num_workers,
             load_from_cache_file=not data_args.overwrite_cache,
         )
-
+    train_dataset.rename_column("documents","train")
+    eval_dataset.rename_column("documents","train")
+    test_dataset.rename_column("documents","train")
     # Data collator
     label_pad_token_id = -100 if data_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
     if data_args.pad_to_max_length:

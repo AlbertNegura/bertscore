@@ -14,5 +14,5 @@ dataset_test = datasets.load_dataset('reddit_tifu', 'short', split=split_pattern
 # body: ['documents']
 # title: ['title']
 
-print(dataset_train)
+print(dataset_train.column_names)
 
