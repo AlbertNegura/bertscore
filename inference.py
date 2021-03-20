@@ -3,7 +3,7 @@ import requests
 import datasets
 
 split_patterns = {
-        "train": "train[:80%]",
+        "train": "train",
         "validation": "train[80%:90%]",
         "test": "train[90%:]"
     }
@@ -16,8 +16,8 @@ dataset_test = datasets.load_dataset('reddit_tifu', 'short', split=split_pattern
 # title: ['title']
 
 
-headers = {"Authorization": f"Bearer {API_KEY}"}
-API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+headers = {"Authorization": f"Bearer api_QniHzMaGMvtvUpernwhmCFFeegSRUFUNNj"}
+API_URL = "https://api-inference.huggingface.co/google/roberta2roberta_L-24_cnn_daily_mail"
 
 def query(payload):
     data = json.dumps(payload)
@@ -34,5 +34,5 @@ for i in range(len(dataset_train)):
     ))
 
 
-with open({OUTPUT_FILE}, 'w') as outfile:
+with open('data.txt', 'w') as outfile:
     json.dump(data, outfile)
