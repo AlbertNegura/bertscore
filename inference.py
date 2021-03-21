@@ -12,7 +12,7 @@ dataset_train = datasets.load_dataset('reddit_tifu', 'long', split=split_pattern
 # title: ['title']
 
 
-headers = {"Authorization": f"Bearer api_QniHzMaGMvtvUpernwhmCFFeegSRUFUNNj"}
+headers = {"Authorization": f"Bearer {API KEY}"}
 API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
 
 def query(payload):
@@ -22,7 +22,7 @@ def query(payload):
 
 data = []
 
-with open("distilbart_cnn_long.txt", 'a') as outfile:
+with open({TEXT FILE}, 'a') as outfile:
     for i in range(len(dataset_train)):
         print("Generating entry ",i," out of ",len(dataset_train))
         data.append(query(
