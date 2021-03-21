@@ -26,8 +26,8 @@ from bert_score import score
 #     model = "RoBERTa"
 # with open("hyps.txt") as f:
 #     model = "PEGASUS-CNN"
-# with open("{}.txt") as f:
-#     model = "PEGASUS-reddit"
+# with open("pegasus_reddit_short.txt") as f:
+#     model = "PEGASUS-reddit""
 
 with open("distilbart_cnn_long.txt") as f:
     model = "BART"
