@@ -11,6 +11,7 @@ transformers.configuration_utils.logger.setLevel(logging.ERROR)
 transformers.modeling_utils.logger.setLevel(logging.ERROR)
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
+import tokenizer
 
 rcParams["xtick.major.size"] = 0
 rcParams["xtick.minor.size"] = 0
@@ -45,7 +46,6 @@ def load(split):
 # load data
 data, examples = load("train")
 
-
 # define model
 
 
@@ -53,14 +53,15 @@ data, examples = load("train")
 
 
 # produce output
-cands, refs = ["something"], ["something_else"]
+cands, refs = ["Abstractive summarization is a natural language generation task where new phrases that capture the most salient information from an article, passage, or paragraph are generated with the objec-tive of shortening the length of the original document.  The task is described as “abstractive” to accentuate that, in contrast to the extractive summarization,  the generated text is a compressed paraphrasing of the main contents of the document, potentially using vocabulary unseen in the source document.", "I am a potato and I'm ok, I like to eat food"], ["Text summarization is the task of creating from along text document, a shorter, and coherent version in order to discover and consume relevant information faster.", "Potatoes are a vegetable that will take over the world."]
 
 
 
 # check bert-score + plots
 P, R, F1 = score(cands, refs, lang='en', verbose=True)
-print(P)
-print(R)
-print(F1)
+print(tf.math.reduce_mean(P, axis=None, keepdims=False, name=None))
+print(tf.math.reduce_mean(R, axis=None, keepdims=False, name=None))
+print(tf.math.reduce_mean(F1, axis=None, keepdims=False, name=None))
+
 plot_example(cands[0],refs[0], lang="en")
 plot_example(cands[0],refs[0], lang="en", rescale_with_baseline=True)
